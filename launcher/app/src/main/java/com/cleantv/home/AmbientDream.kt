@@ -63,7 +63,7 @@ class AmbientDream : DreamService() {
         val cfg = UserConfig.get(this)
         UserConfig.image(this, "characters", px.d(653), px.d(649))?.let { bmp ->
             root.addView(ImageView(this).apply {
-                setImageBitmap(bmp)
+                setImageBitmap(Backdrop.fadeRight(bmp, px.d(653), px.d(649)))
                 scaleType = ImageView.ScaleType.FIT_XY
                 importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
             }, FrameLayout.LayoutParams(px.d(653), px.d(649)).apply { leftMargin = px.d(107); topMargin = px.d(431) })
@@ -71,7 +71,8 @@ class AmbientDream : DreamService() {
 
         val id = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
         val names = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; gravity = Gravity.END }
-        if (cfg.names.isNotEmpty()) names.addView(TextView(this).look(px, 38, Looks.TEXT).apply { text = cfg.names })
+        // Explicit WRAP widths: a default MATCH_PARENT child of a WRAP column is squeezed to the narrowest sibling.
+        if (cfg.names.isNotEmpty()) names.addView(TextView(this).look(px, 38, Looks.TEXT).apply { text = cfg.names; maxLines = 1 }, lp(WRAP, WRAP))
         greetTv = TextView(this).look(px, 26, Looks.TEXT3, 300)
         names.addView(greetTv, lp(WRAP, WRAP).apply { topMargin = px.d(2) })
         id.addView(names)
@@ -83,8 +84,9 @@ class AmbientDream : DreamService() {
         root.addView(id, FrameLayout.LayoutParams(WRAP, WRAP, Gravity.END).apply { topMargin = px.d(96); rightMargin = px.d(112) })
 
         val col = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; gravity = Gravity.END }
-        clockTv = TextView(this).look(px, 300, Looks.TEXT, 200).apply { letterSpacing = -0.04f }
-        col.addView(clockTv)
+        // A little end padding so the tightened letter spacing never clips the last digit.
+        clockTv = TextView(this).look(px, 300, Looks.TEXT, 200).apply { letterSpacing = -0.04f; maxLines = 1; setPadding(0, 0, px.d(12), 0) }
+        col.addView(clockTv, lp(WRAP, WRAP))
         dateTv = TextView(this).look(px, 44, Looks.TEXT2, 300)
         col.addView(dateTv, lp(WRAP, WRAP).apply { topMargin = px.d(16) })
         Fixtures.upcoming(this).firstOrNull()?.takeIf { cfg.team.isNotEmpty() }?.let { m ->

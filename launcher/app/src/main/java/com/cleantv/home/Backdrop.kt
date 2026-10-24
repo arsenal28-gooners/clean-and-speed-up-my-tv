@@ -123,6 +123,24 @@ object Backdrop {
         return out
     }
 
+    /**
+     * Idle screen: the characters fade smoothly into the black on their right side
+     * (opaque to 45%, then an eased fade to nothing at the right edge), baked once.
+     */
+    fun fadeRight(src: Bitmap, w: Int, h: Int): Bitmap {
+        val out = Bitmap.createScaledBitmap(src, max(1, w), max(1, h), true)
+        if (out !== src) src.recycle()
+        val m = if (out.isMutable) out else out.copy(Bitmap.Config.ARGB_8888, true).also { out.recycle() }
+        val stops = floatArrayOf(0f, 0.45f, 0.6f, 0.75f, 0.88f, 1f)
+        val alphas = intArrayOf(255, 255, 214, 128, 46, 0)
+        Canvas(m).drawRect(0f, 0f, m.width.toFloat(), m.height.toFloat(), Paint().apply {
+            xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
+            shader = LinearGradient(0f, 0f, m.width.toFloat(), 0f, IntArray(alphas.size) { withAlpha(Color.BLACK, alphas[it]) },
+                stops, Shader.TileMode.CLAMP)
+        })
+        return m
+    }
+
     /** The user's cut-out characters with their lower part fading out, baked once (mockup: opaque to 58%, gone by 98%). */
     fun fadedCharacters(src: Bitmap, w: Int, h: Int): Bitmap {
         val out = Bitmap.createScaledBitmap(src, max(1, w), max(1, h), true)
