@@ -19,17 +19,19 @@ most Android TV / Google TV sets with Android 8.0 or newer.
 
 ## Screenshots
 
-From the public mockup in [docs/mockup/](docs/mockup/) (open `index.html` in a browser), with **example
-people** ("Sam & Alex", drawn for this repo). On your TV they are replaced by your own names, avatar and
-characters from `config.json` and `assets/custom/` (see [docs/CUSTOMIZE.md](docs/CUSTOMIZE.md)).
+From the public mockup in [docs/mockup/](docs/mockup/) (open `index.html` in a browser), with an **example
+couple** ("Sam & Alex", fictional names) in front of a **New York skyline**. On your TV they are replaced by
+your own names, avatar and characters from `config.json` and `assets/custom/` (see
+[docs/CUSTOMIZE.md](docs/CUSTOMIZE.md)). The launcher itself ships with a beach scene (`Backdrop.kt`); the
+skyline here shows that the scene can be any place you like, as long as it follows the time of day.
 
 ![Home](docs/screenshots/home.png)
 
 ### It follows the time of day
 
-The beach (sky, sun or moon, sea, sand), the aurora under it and the greeting change by themselves:
-**morning** before 11:00, **midday** 11:00-14:59, **afternoon** 15:00-17:59, **night** from 18:00
-(with the moon and stars). Each scene is painted once when the time of day changes, so it costs nothing
+The scene (sky, sun or moon, towers, river), the aurora under it and the greeting change by themselves:
+**morning** before 11:00, **midday** 11:00-14:59, **afternoon** 15:00-17:59 (the first windows light up),
+**night** from 18:00 (moon, stars and a lit city mirrored in the river). Each scene is painted once when the time of day changes, so it costs nothing
 while you watch.
 
 ![The home screen at the four times of day](docs/screenshots/times-home.png)
@@ -37,7 +39,7 @@ while you watch.
 ### All apps and the idle screen
 
 Press Down on the dock to scroll to every installed app. When the TV is idle, the screensaver shows the
-same beach, your characters on the left and a large clock on the right.
+same scene, your characters on the left and a large clock on the right.
 
 | All apps | Idle screen |
 |---|---|
