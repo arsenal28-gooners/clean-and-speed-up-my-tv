@@ -13,6 +13,24 @@ the prompt they paste is [PROMPT.md](PROMPT.md).
 3. **Personalise** it without touching code: `assets/config.json` and `assets/custom/` (see
    [docs/CUSTOMIZE.md](docs/CUSTOMIZE.md)).
 
+## The look belongs to the person
+
+Everything you see in this repo's screenshots is an **example**, not the design to copy: the couple
+("Sam & Alex"), the New York skyline in the mockup, the beach in the launcher, the colours and the team
+card. The screen is meant to be customised, so ask the person what they want before you draw anything:
+
+- **Their picture**: a photo, an illustration, a cartoon of themselves, a pet, a mascot, or nothing at all.
+  Use what they give you; do not pick or generate people for them. Only use pictures of the person
+  themselves or of people who agreed to it, and never label a picture with a real public figure's name.
+- **The illustration style**, if they want one made (flat, cartoon, line art, photo cut-out) and who or
+  what it shows.
+- **The place in the backdrop**: a beach, a city skyline, mountains, their home town, an abstract aurora,
+  plain black. Whatever they choose still follows the four times of day (sky, sun or moon, lights at night).
+- **Names, monogram, colours, info card, dock apps**: their own, or none.
+
+Show their choices on the mockup and change them until they approve. If they have no preference, offer
+the examples here as a starting point and say they are only examples.
+
 ## The order of work (do not skip ahead)
 
 Follow [docs/WORKFLOW.md](docs/WORKFLOW.md). In short:

@@ -7,9 +7,14 @@ approves or can see.
 
 1. Build an HTML mockup of the home screen at 1920 x 1080 (any canvas the person can open in a browser).
    Start from [DESIGN.md](DESIGN.md); it is the approved reference design.
-2. Ask design questions **one at a time**, with 2-3 options and a recommendation each, for example:
-   - background: beach that follows the time of day, aurora, or a combination (beach band on top,
-     aurora everywhere else);
+2. Ask design questions **one at a time**, with 2-3 options and a recommendation each. The screen is
+   customisable: the person decides which photo or illustration is on it and which place the backdrop
+   shows (see "The look belongs to the person" in [AGENTS.md](../AGENTS.md)). For example:
+   - their picture: their own photo, an illustration or cartoon of them (which style), a pet or mascot, or none;
+   - the place: a beach, a city skyline (the public mockup shows New York), mountains, their home town,
+     or only the aurora; it follows the time of day either way;
+   - background layout: the scene alone, aurora alone, or a combination (scene band on top, aurora
+     everywhere else);
    - identity: names in the greeting, a monogram, an avatar with two poses, characters over the backdrop;
    - quick settings: dropdowns under the top-right pills (Inputs, Wi-Fi, Settings);
    - the info card (next match of a team, or none);

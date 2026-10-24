@@ -17,6 +17,9 @@ Follow AGENTS.md and docs/WORKFLOW.md from this repo, step by step, on the real 
 - Start with the design. Show me a mockup of the home screen first and ask me one design question at a
   time (colours, what the top bar shows, which apps go in the dock, whether I want an avatar or
   characters, light/time-of-day backdrop). Do not build or change the TV until I say "design approved".
+- The screenshots in this repo are only examples. Ask me which photo or illustration I want on the screen
+  (and in what style), and which place the backdrop shows (beach, a city, mountains, my home town, or
+  none). Keep it following the time of day.
 - Ask me for my images when the design needs them: an avatar (normal and waving) and a cut-out picture of
   us or a mascot. If I only have a normal photo or illustration, help me make the cut-out and the small
   WebP files described in launcher/app/src/main/assets/custom/README.md.

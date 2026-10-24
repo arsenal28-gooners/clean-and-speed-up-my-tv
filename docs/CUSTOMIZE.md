@@ -27,6 +27,17 @@ Your avatar (two poses) and cut-out characters. File names, sizes and tips are i
 - **Dock**: hold OK on a dock tile to pick another app; hold OK on a tile in "All apps" to put it in the dock.
 - **Screensaver**: Settings pill > Screensaver opens Android's screensaver settings; pick "Clean Home ambient".
 
+## Your picture and your place
+
+The couple and the scenery in the screenshots are examples. Choose your own:
+
+- **Picture**: any photo or illustration of you, your family, a pet or a mascot, in any style. It goes in
+  `custom/` as described above; leave it out for a screen without characters.
+- **Place**: the launcher paints a beach (`Backdrop.kt`), the public mockup paints New York
+  (`docs/mockup/index.html`, function `city()`). Ask your agent for any other place; keep one palette per
+  time of day (morning, midday, afternoon, night) and paint it once per phase into a small bitmap, as
+  `Backdrop.kt` does, so it stays light.
+
 ## Colours and layout
 
 The time-of-day palettes (beach and aurora) are in `Looks.kt`; the layout numbers match
