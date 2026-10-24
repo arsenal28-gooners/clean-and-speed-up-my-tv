@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 320x180 TV banner: dark ground, coral ring with a small house. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="320dp"
+    android:height="180dp"
+    android:viewportWidth="320"
+    android:viewportHeight="180">
+    <path android:fillColor="#0E1116" android:pathData="M0,0h320v180h-320z" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M108,90a52,52 0 1,0 104,0a52,52 0 1,0 -104,0"
+        android:strokeColor="#FF5A4F"
+        android:strokeWidth="6" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M136,94L160,72L184,94M142,88V112H178V88M154,112V98H166V112"
+        android:strokeColor="#FF5A4F"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeWidth="6" />
+</vector>

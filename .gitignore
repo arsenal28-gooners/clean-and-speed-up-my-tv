@@ -1,0 +1,19 @@
+# Build output
+launcher/.gradle/
+launcher/build/
+launcher/app/build/
+launcher/.kotlin/
+*.apk
+*.aab
+*.iml
+.idea/
+
+# Machine-specific
+launcher/local.properties
+
+# Personal: your images and anything copied off your TV
+launcher/app/src/main/assets/custom/*
+!launcher/app/src/main/assets/custom/README.md
+backup/
+shots/
+*.png.bak

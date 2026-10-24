@@ -1,0 +1,13 @@
+{
+  "_help": "Personalise your home screen here. Leave a field empty to hide it. See docs/CUSTOMIZE.md.",
+  "names": "",
+  "monogram": "TV",
+  "team": "",
+  "dock_apps": [
+    "com.google.android.youtube.tv",
+    "com.netflix.ninja",
+    "com.disney.disneyplus",
+    "com.spotify.tv.android",
+    "com.android.vending"
+  ]
+}

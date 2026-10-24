@@ -1,0 +1,8 @@
+{
+  "_note": "Upcoming matches for the team named in config.json (\"team\"). Dates are YYYY-MM-DD; set \"time\" when the kick-off time is known, e.g. \"21:30\". Past dates are skipped.",
+  "matches": [
+    { "opponent": "Opponent A", "home": true, "date": "2026-11-07", "time": null },
+    { "opponent": "Opponent B", "home": false, "date": "2026-11-14", "time": null },
+    { "opponent": "Opponent C", "home": true, "date": "2026-11-21", "time": "20:00" }
+  ]
+}
