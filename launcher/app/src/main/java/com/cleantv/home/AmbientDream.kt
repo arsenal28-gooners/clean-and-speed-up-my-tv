@@ -63,11 +63,17 @@ class AmbientDream : DreamService() {
         val cfg = UserConfig.get(this)
         UserConfig.image(this, "characters", px.d(653), px.d(649))?.let { bmp ->
             root.addView(ImageView(this).apply {
-                setImageBitmap(Backdrop.fadeRight(bmp, px.d(653), px.d(649)))
+                setImageBitmap(bmp)
                 scaleType = ImageView.ScaleType.FIT_XY
                 importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
             }, FrameLayout.LayoutParams(px.d(653), px.d(649)).apply { leftMargin = px.d(107); topMargin = px.d(431) })
         }
+        // One long fade to black over the beach and the characters, so the photo is never cut off.
+        root.addView(ImageView(this).apply {
+            setImageBitmap(Backdrop.ambientShade())
+            scaleType = ImageView.ScaleType.FIT_XY
+            importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+        }, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
 
         val id = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
         val names = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; gravity = Gravity.END }

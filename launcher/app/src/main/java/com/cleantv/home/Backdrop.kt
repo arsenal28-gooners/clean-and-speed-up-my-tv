@@ -76,7 +76,10 @@ object Backdrop {
         return band
     }
 
-    /** Idle screen: the beach fills the left 1100 px and fades to black towards the clock. */
+    /**
+     * Idle screen beach, full width: opaque to 40%, then easing to 45% so it stays faintly
+     * visible behind the clock. The long dark fade on top is [ambientShade].
+     */
     fun ambient(phase: Phase, screenW: Int, screenH: Int): Bitmap {
         val bw = max(1, screenW / 2)
         val bh = max(1, screenH / 2)
@@ -85,7 +88,7 @@ object Backdrop {
         val out = Bitmap.createBitmap(bw, bh, Bitmap.Config.ARGB_8888)
         val cv = Canvas(out)
         cv.drawColor(Color.BLACK)
-        val pw = (1100 * s).roundToInt()
+        val pw = bw
         val panel = Bitmap.createBitmap(max(1, pw), bh, Bitmap.Config.ARGB_8888)
         val pc = Canvas(panel)
         val p = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -108,14 +111,16 @@ object Backdrop {
         p.color = sc.sand; p.alpha = 255
         pc.drawPath(Path().apply {
             moveTo(0f, 920 * s); cubicTo(300 * s, 890 * s, 650 * s, 950 * s, 1100 * s, 924 * s)
+            cubicTo(1450 * s, 908 * s, 1700 * s, 940 * s, 1920 * s, 926 * s)
             lineTo(pw.toFloat(), bh.toFloat()); lineTo(0f, bh.toFloat()); close()
         }, p)
         p.color = Color.BLACK; p.alpha = 56
         pc.drawRect(0f, 0f, pw.toFloat(), bh.toFloat(), p)
         val mask = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
-            shader = LinearGradient(0f, 0f, pw.toFloat(), 0f, intArrayOf(Color.BLACK, Color.BLACK, Color.TRANSPARENT),
-                floatArrayOf(0f, 0.55f, 1f), Shader.TileMode.CLAMP)
+            shader = LinearGradient(0f, 0f, pw.toFloat(), 0f,
+                intArrayOf(Color.BLACK, Color.BLACK, withAlpha(Color.BLACK, 179), withAlpha(Color.BLACK, 128), withAlpha(Color.BLACK, 115)),
+                floatArrayOf(0f, 0.4f, 0.55f, 0.7f, 1f), Shader.TileMode.CLAMP)
         }
         pc.drawRect(0f, 0f, pw.toFloat(), bh.toFloat(), mask)
         cv.drawBitmap(panel, 0f, 0f, null)
@@ -124,21 +129,18 @@ object Backdrop {
     }
 
     /**
-     * Idle screen: the characters fade smoothly into the black on their right side
-     * (opaque to 45%, then an eased fade to nothing at the right edge), baked once.
+     * The approved long dark fade over beach and characters: black at 0% to x 600, 34% at the middle,
+     * 60% at x 1230 and 80% from x 1380. A 192 x 1 strip, stretched across the screen.
      */
-    fun fadeRight(src: Bitmap, w: Int, h: Int): Bitmap {
-        val out = Bitmap.createScaledBitmap(src, max(1, w), max(1, h), true)
-        if (out !== src) src.recycle()
-        val m = if (out.isMutable) out else out.copy(Bitmap.Config.ARGB_8888, true).also { out.recycle() }
-        val stops = floatArrayOf(0f, 0.45f, 0.6f, 0.75f, 0.88f, 1f)
-        val alphas = intArrayOf(255, 255, 214, 128, 46, 0)
-        Canvas(m).drawRect(0f, 0f, m.width.toFloat(), m.height.toFloat(), Paint().apply {
-            xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
-            shader = LinearGradient(0f, 0f, m.width.toFloat(), 0f, IntArray(alphas.size) { withAlpha(Color.BLACK, alphas[it]) },
-                stops, Shader.TileMode.CLAMP)
+    fun ambientShade(): Bitmap {
+        val out = Bitmap.createBitmap(192, 1, Bitmap.Config.ARGB_8888)
+        Canvas(out).drawRect(0f, 0f, 192f, 1f, Paint().apply {
+            shader = LinearGradient(0f, 0f, 192f, 0f,
+                intArrayOf(Color.TRANSPARENT, Color.TRANSPARENT, withAlpha(Color.BLACK, 87), withAlpha(Color.BLACK, 153),
+                    withAlpha(Color.BLACK, 204), withAlpha(Color.BLACK, 204)),
+                floatArrayOf(0f, 0.31f, 0.5f, 0.64f, 0.72f, 1f), Shader.TileMode.CLAMP)
         })
-        return m
+        return out
     }
 
     /** The user's cut-out characters with their lower part fading out, baked once (mockup: opaque to 58%, gone by 98%). */

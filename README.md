@@ -17,6 +17,21 @@ most Android TV / Google TV sets with Android 8.0 or newer.
   - an idle screen (screensaver) in the same style.
 - About 55 MB of RAM in use on a 1080p TV, after the stock launcher and its helpers are switched off.
 
+## Screenshots
+
+Taken on the TV with the template as it is in this repo (no names, avatar or characters added yet).
+
+| Home | Focused dock app |
+|---|---|
+| ![Home](docs/screenshots/home.png) | ![Focused dock app with its colour glow](docs/screenshots/dock-focus.png) |
+| **All apps** | **Idle screen** |
+| ![All apps](docs/screenshots/all-apps.png) | ![Idle screen](docs/screenshots/idle.png) |
+| **Inputs** | **Settings** |
+| ![Inputs dropdown](docs/screenshots/menu-inputs.png) | ![Settings dropdown](docs/screenshots/menu-settings.png) |
+
+With your own `config.json` and images (see [docs/CUSTOMIZE.md](docs/CUSTOMIZE.md)) the greeting shows your
+names, the circle shows your avatar, your characters stand on the beach, and a card shows your team's next match.
+
 ## Use it with an AI agent
 
 1. Clone this repo on a computer on the same Wi-Fi as the TV.
