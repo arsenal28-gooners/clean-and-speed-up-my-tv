@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clean Home mockup</title>
+<!--
+  Public mockup of the home screen, the "All apps" view and the idle screen, with example people.
+  Open in a browser. URL parameters:
+    view  = home | apps | idle        (default home)
+    phase = pagi | siang | sore | malam   (morning, midday, afternoon, night; default from the clock)
+    lang  = en | id                    (default en)
+  Example: index.html?view=idle&phase=sore
+-->
+<style>
+  html, body { margin: 0; background: #000; overflow: hidden; }
+  #s { position: relative; width: 1920px; height: 1080px; overflow: hidden; transform-origin: 0 0;
+       background: #000; color: #F5F5F7; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; }
+  .abs { position: absolute; }
+  .frost { background: rgba(255,255,255,0.10); border: 2px solid rgba(255,255,255,0.14); box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.18); }
+  .pill { height: 60px; box-sizing: border-box; border-radius: 999px; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 26px; font-weight: 600; }
+  .tile { border-radius: 22px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; }
+  .lbl { font-size: 24px; color: #AEAEB2; text-align: center; margin-top: 10px; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div id="s"></div>
+<script>
+const q = new URLSearchParams(location.search);
+const h = new Date().getHours();
+const phase = q.get('phase') || (h < 11 ? 'pagi' : h < 15 ? 'siang' : h < 18 ? 'sore' : 'malam');
+const view = q.get('view') || 'home';
+const en = (q.get('lang') || 'en') === 'en';
+
+// Same colours as the app (launcher/.../Looks.kt).
+const SCENE = {
+  pagi:  { skyTop: '#6FA8DC', skyLow: '#FBD3B0', sun: '#FFE3A3', sunY: 250, sunR: 52, aSunY: 560, aSunR: 56, sea: '#5D9CC0', sheen: '#FFE3C2', sand: '#EED3A6', stars: 0 },
+  siang: { skyTop: '#2F8FE0', skyLow: '#9FD6F5', sun: '#FFF7DC', sunY: 120, sunR: 44, aSunY: 170, aSunR: 48, sea: '#1E7FB8', sheen: '#CFEFFF', sand: '#F1DCAE', stars: 0 },
+  sore:  { skyTop: '#4B3F7A', skyLow: '#F28C5A', sun: '#FFB067', sunY: 380, sunR: 64, aSunY: 680, aSunR: 72, sea: '#5B4A78', sheen: '#F6A06A', sand: '#D6A272', stars: 0 },
+  malam: { skyTop: '#070C1F', skyLow: '#1C2A55', sun: '#E9ECF5', sunY: 150, sunR: 40, aSunY: 210, aSunR: 44, sea: '#101C3D', sheen: '#AEB8D6', sand: '#34364E', stars: 0.9 }
+}[phase];
+const AUR = { pagi: ['#0B1424', '#FFB38A', '#7CC4FF'], siang: ['#061626', '#3FD0FF', '#2BD9A8'], sore: ['#120A1E', '#FF8A4C', '#9B6BFF'], malam: ['#070A14', '#2EE6C5', '#7B5CFF'] }[phase];
+const T = en
+  ? { greet: { pagi: 'Good morning', siang: 'Good afternoon', sore: 'Good afternoon', malam: 'Good evening' }[phase], date: 'Saturday, 7 November',
+      next: 'Your Team, next match', home: 'Home', match: 'Your Team vs Opponent A', when: 'Saturday, 7 November, kick-off time to be confirmed',
+      inputs: 'Inputs', all: 'All apps', back: 'Back to home' }
+  : { greet: { pagi: 'Selamat pagi', siang: 'Selamat siang', sore: 'Selamat sore', malam: 'Selamat malam' }[phase], date: 'Sabtu, 7 November',
+      next: 'Your Team, laga berikutnya', home: 'Kandang', match: 'Your Team vs Opponent A', when: 'Sabtu, 7 November, jam tayang menyusul',
+      inputs: 'Input', all: 'Semua aplikasi', back: 'Kembali ke beranda' };
+const CLOCK = { pagi: '08:25', siang: '12:40', sore: '16:10', malam: '20:45' }[phase];
+const NAMES = 'Sam & Alex', MONO = 'S&A';
+const APPS = [['Video', '#C4302B'], ['Movies', '#8F0B12'], ['Store', '#0F7A5A'], ['Music', '#1A8F48'], ['News', '#2F5FD0'],
+  ['Sports', '#C96A12'], ['Kids', '#D23A6A'], ['Photos', '#6C3FB5'], ['Files', '#B8860B'], ['Live TV', '#B38A12'], ['Browser', '#2B6CC4'],
+  ['Games', '#2E9E68'], ['Podcasts', '#7A2FB0'], ['Weather', '#1C8FB8'], ['Radio', '#B5462E'], ['Settings', '#5F6B7A'], ['Cast', '#4A5568'], ['Fitness', '#C2410C']];
+const ICON = {
+  input: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>',
+  wifi: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8.8a15 15 0 0 1 20 0"/><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/></svg>',
+  gear: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>'
+};
+const rgba = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
+const stars = (pts) => pts.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2"/>`).join('');
+
+function beachBand() {
+  const g = 'g' + phase;
+  return `<div class="abs" style="left:0;top:0;width:1920px;height:700px;-webkit-mask-image:linear-gradient(to bottom,#000 62%,transparent);mask-image:linear-gradient(to bottom,#000 62%,transparent)">
+    <svg class="abs" viewBox="0 0 1920 700" style="left:0;top:0;width:1920px;height:700px">
+      <defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${SCENE.skyTop}"/><stop offset="1" stop-color="${SCENE.skyLow}"/></linearGradient></defs>
+      <rect width="1920" height="500" fill="url(#${g})"/>
+      <g fill="#fff" opacity="${SCENE.stars}">${stars([[980, 70], [1240, 40], [1420, 160], [1700, 60], [1860, 230], [1080, 300]])}</g>
+      <circle cx="1180" cy="${SCENE.sunY}" r="${SCENE.sunR * 2.2}" fill="${SCENE.sun}" opacity="0.22"/><circle cx="1180" cy="${SCENE.sunY}" r="${SCENE.sunR}" fill="${SCENE.sun}"/>
+      <rect y="500" width="1920" height="200" fill="${SCENE.sea}"/><rect y="510" width="1920" height="3" fill="${SCENE.sheen}" opacity="0.5"/>
+      <ellipse cx="1180" cy="526" rx="130" ry="6" fill="${SCENE.sheen}" opacity="0.6"/>
+      <path d="M0 590 C 400 565 800 610 1200 596 C 1500 585 1750 604 1920 592 L1920 700 L0 700 Z" fill="${SCENE.sand}"/>
+    </svg>
+    <div class="abs" style="inset:0;background:rgba(0,0,0,0.22)"></div>
+    <div class="abs" style="inset:0;background:linear-gradient(to right,${AUR[0]} 0%,${rgba(AUR[0], 0.92)} 28%,${rgba(AUR[0], 0.35)} 48%,transparent 62%)"></div>
+  </div>`;
+}
+
+function aurora() {
+  const r = [[-200, 930, 1200, 220, -6, 2, 0.40], [700, 960, 1200, 200, -4, 1, 0.34], [1350, 920, 800, 200, 8, 2, 0.30],
+    [-100, 1140, 1300, 300, -8, 1, 0.32], [1000, 1300, 1000, 260, 6, 2, 0.28], [300, 1700, 1400, 320, -5, 2, 0.26]];
+  return `<div class="abs" style="left:0;top:0;width:1920px;height:2400px;overflow:hidden;background:linear-gradient(to bottom,${AUR[0]} 0%,#000 37%,${AUR[0]} 65%,#000 100%)">
+    ${r.map(([x, y, w, hh, rot, c, a]) => `<span class="abs" style="left:${x}px;top:${y}px;width:${w}px;height:${hh}px;border-radius:50%;background:radial-gradient(closest-side,${rgba(AUR[c], a)},transparent);filter:blur(28px);transform:rotate(${rot}deg)"></span>`).join('')}
+  </div>`;
+}
+
+function avatar(size) {
+  return `<span class="abs" style="position:relative;display:inline-block;width:${size}px;height:${size}px;border-radius:50%;overflow:hidden;background:#1C1C1E;box-shadow:inset 0 0 0 2px #FF5A4F;flex:none">
+    <img src="example-couple.svg" style="position:absolute;width:${size * 2.6}px;height:${size * 2.6}px;left:${-size * 0.35}px;top:${-size * 0.45}px"></span>`;
+}
+
+function home(apps) {
+  const sel = apps ? -1 : 0, gsel = apps ? 3 : -1;
+  const tileW = 326.4;
+  const glowX = apps ? 96 + 3 * 292 + 134 : 96 + tileW / 2, glowY = apps ? 996 + 75 : 844;
+  const glowC = apps ? APPS[3][1] : APPS[0][1];
+  const page = `
+    ${aurora()}${beachBand()}
+    <div class="abs" style="left:${glowX - 450}px;top:${glowY - 210}px;width:900px;height:420px;border-radius:50%;background:radial-gradient(closest-side,${rgba(glowC, 0.42)},transparent)"></div>
+    <img class="abs" src="example-couple.svg" style="left:1200px;top:96px;width:600px;height:596px;-webkit-mask-image:linear-gradient(to bottom,#000 58%,transparent 98%);mask-image:linear-gradient(to bottom,#000 58%,transparent 98%)">
+    <div class="abs" style="left:80px;top:64px">
+      <div style="display:flex;align-items:center;gap:16px">${avatar(52)}<span style="font-size:32px;color:#D1D1D6">${T.greet}, ${NAMES}</span></div>
+      <div style="font-size:168px;font-weight:200;letter-spacing:-6px;line-height:1;margin-top:8px">${CLOCK}</div>
+      <div style="font-size:34px;font-weight:300;color:#AEAEB2">${T.date}</div>
+    </div>
+    <div class="abs" style="right:80px;top:64px;display:flex;gap:14px">
+      <div class="pill frost" style="padding:0 26px">${ICON.input}${T.inputs}</div>
+      <div class="pill frost" style="padding:0 26px">${ICON.wifi}Wi-Fi</div>
+      <div class="pill frost" style="width:60px">${ICON.gear}</div>
+    </div>
+    <div class="abs frost" style="left:80px;top:420px;width:500px;box-sizing:border-box;padding:22px 28px;border-radius:28px">
+      <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:24px;color:#AEAEB2">${T.next}</span>
+        <span style="font-size:22px;font-weight:600;padding:2px 12px;border-radius:999px;border:2px solid #FF5A4F;color:#FF5A4F">${T.home}</span></div>
+      <div style="font-size:34px;font-weight:600;margin-top:6px">${T.match}</div>
+      <div style="font-size:24px;color:#D1D1D6;margin-top:6px">${T.when}</div>
+    </div>
+    <div class="abs" style="left:80px;top:612px;font-size:76px;font-weight:300;letter-spacing:-1px;text-shadow:0 0 48px ${rgba(glowC, 0.55)},0 0 120px ${rgba(glowC, 0.35)}">${apps ? APPS[3][0] : APPS[0][0]}</div>
+    <div class="abs" style="left:72px;top:728px;width:1776px;height:232px;box-sizing:border-box;border-radius:44px;background:rgba(255,255,255,0.07);border:2px solid rgba(255,255,255,0.10)">
+      ${sel >= 0 ? `<div class="abs" style="top:14px;left:14px;width:${tileW + 20}px;height:204px;border-radius:32px;background:rgba(255,255,255,0.16);border:2px solid rgba(255,255,255,0.32)"></div>` : ''}
+      <div class="abs" style="left:24px;top:24px;right:24px;display:grid;grid-template-columns:repeat(5,1fr);gap:24px">
+        ${APPS.slice(0, 5).map(([n, c], i) => `<div class="tile" style="height:184px;background:${c};font-size:44px;${i === sel ? 'transform:scale(1.06)' : 'filter:saturate(0.75) brightness(0.8)'}">${n}</div>`).join('')}
+      </div>
+    </div>
+    <div class="abs" style="left:96px;top:996px;width:1728px;display:grid;grid-template-columns:repeat(6,1fr);gap:28px 24px;opacity:${apps ? 1 : 0.45}">
+      ${APPS.slice(5).map(([n, c], i) => `<div><div class="tile" style="height:150px;background:${c};font-size:34px;${i === gsel ? 'transform:scale(1.06);box-shadow:0 0 0 4px rgba(255,255,255,0.85)' : 'filter:saturate(0.7) brightness(0.75)'}">${n}</div>${apps ? `<div class="lbl" style="${i === gsel ? 'color:#F5F5F7' : ''}">${n}</div>` : ''}</div>`).join('')}
+    </div>`;
+  return `<div class="abs" style="inset:0;height:2400px;transform:translateY(${apps ? -560 : 0}px)">${page}</div>`;
+}
+
+function idle() {
+  const g = 'a' + phase;
+  return `
+    <div class="abs" style="left:0;top:0;width:1920px;height:1080px;-webkit-mask-image:linear-gradient(to right,#000 0%,#000 40%,rgba(0,0,0,0.7) 55%,rgba(0,0,0,0.5) 70%,rgba(0,0,0,0.45) 100%);mask-image:linear-gradient(to right,#000 0%,#000 40%,rgba(0,0,0,0.7) 55%,rgba(0,0,0,0.5) 70%,rgba(0,0,0,0.45) 100%)">
+      <svg class="abs" viewBox="0 0 1920 1080" style="left:0;top:0;width:1920px;height:1080px">
+        <defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${SCENE.skyTop}"/><stop offset="1" stop-color="${SCENE.skyLow}"/></linearGradient></defs>
+        <rect width="1920" height="800" fill="url(#${g})"/>
+        <g fill="#fff" opacity="${SCENE.stars}">${stars([[160, 90], [420, 200], [700, 80], [880, 320], [300, 380]])}</g>
+        <circle cx="760" cy="${SCENE.aSunY}" r="${SCENE.aSunR * 2.2}" fill="${SCENE.sun}" opacity="0.22"/><circle cx="760" cy="${SCENE.aSunY}" r="${SCENE.aSunR}" fill="${SCENE.sun}"/>
+        <rect y="800" width="1920" height="280" fill="${SCENE.sea}"/><rect y="812" width="1920" height="4" fill="${SCENE.sheen}" opacity="0.5"/>
+        <ellipse cx="760" cy="830" rx="140" ry="7" fill="${SCENE.sheen}" opacity="0.6"/>
+        <path d="M0 920 C 300 890 650 950 1100 924 C 1450 908 1700 940 1920 926 L1920 1080 L0 1080 Z" fill="${SCENE.sand}"/>
+      </svg>
+      <div class="abs" style="inset:0;background:rgba(0,0,0,0.22)"></div>
+    </div>
+    <img class="abs" src="example-couple.svg" style="left:107px;top:431px;width:653px;height:649px">
+    <div class="abs" style="inset:0;background:linear-gradient(to right,transparent 0%,transparent 31%,rgba(0,0,0,0.34) 50%,rgba(0,0,0,0.6) 64%,rgba(0,0,0,0.8) 72%,rgba(0,0,0,0.8) 100%)"></div>
+    <div class="abs" style="right:112px;top:96px;display:flex;align-items:center;gap:24px">
+      <div style="text-align:right"><div style="font-size:38px">${NAMES}</div><div style="font-size:26px;font-weight:300;color:#AEAEB2">${T.greet}</div></div>
+      <span style="width:96px;height:96px;border-radius:50%;box-sizing:border-box;border:2px solid #FF5A4F;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;color:#FF5A4F">${MONO}</span>
+    </div>
+    <div class="abs" style="right:112px;top:330px;text-align:right">
+      <div style="font-size:300px;font-weight:200;letter-spacing:-12px;line-height:0.9;padding-right:12px">${CLOCK}</div>
+      <div style="font-size:44px;font-weight:300;color:#D1D1D6;margin-top:16px">${T.date}</div>
+      <div style="font-size:30px;font-weight:300;color:#AEAEB2;margin-top:24px">${T.match}</div>
+    </div>
+    <div class="abs" style="right:112px;bottom:72px;display:flex;align-items:center;gap:12px;font-size:24px;color:#AEAEB2">
+      <span style="padding:2px 14px;border-radius:10px;border:2px solid rgba(255,255,255,0.22);color:#F5F5F7;font-weight:600">OK</span>${T.back}</div>`;
+}
+
+const s = document.getElementById('s');
+s.innerHTML = view === 'idle' ? idle() : home(view === 'apps');
+const fit = () => { s.style.transform = `scale(${Math.min(innerWidth / 1920, innerHeight / 1080)})`; };
+fit(); addEventListener('resize', fit);
+</script>
+</body>
+</html>

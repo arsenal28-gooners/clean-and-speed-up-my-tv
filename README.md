@@ -19,18 +19,34 @@ most Android TV / Google TV sets with Android 8.0 or newer.
 
 ## Screenshots
 
-Taken on the TV with the template as it is in this repo (no names, avatar or characters added yet).
+From the public mockup in [docs/mockup/](docs/mockup/) (open `index.html` in a browser), with **example
+people** ("Sam & Alex", drawn for this repo). On your TV they are replaced by your own names, avatar and
+characters from `config.json` and `assets/custom/` (see [docs/CUSTOMIZE.md](docs/CUSTOMIZE.md)).
 
-| Home | Focused dock app |
+![Home](docs/screenshots/home.png)
+
+### It follows the time of day
+
+The beach (sky, sun or moon, sea, sand), the aurora under it and the greeting change by themselves:
+**morning** before 11:00, **midday** 11:00-14:59, **afternoon** 15:00-17:59, **night** from 18:00
+(with the moon and stars). Each scene is painted once when the time of day changes, so it costs nothing
+while you watch.
+
+![The home screen at the four times of day](docs/screenshots/times-home.png)
+
+### All apps and the idle screen
+
+Press Down on the dock to scroll to every installed app. When the TV is idle, the screensaver shows the
+same beach, your characters on the left and a large clock on the right.
+
+| All apps | Idle screen |
 |---|---|
-| ![Home](docs/screenshots/home.png) | ![Focused dock app with its colour glow](docs/screenshots/dock-focus.png) |
-| **All apps** | **Idle screen** |
 | ![All apps](docs/screenshots/all-apps.png) | ![Idle screen](docs/screenshots/idle.png) |
-| **Inputs** | **Settings** |
-| ![Inputs dropdown](docs/screenshots/menu-inputs.png) | ![Settings dropdown](docs/screenshots/menu-settings.png) |
 
-With your own `config.json` and images (see [docs/CUSTOMIZE.md](docs/CUSTOMIZE.md)) the greeting shows your
-names, the circle shows your avatar, your characters stand on the beach, and a card shows your team's next match.
+![The idle screen at the four times of day](docs/screenshots/times-idle.png)
+
+To regenerate these pictures on Windows: `powershell -File docs/mockup/export.ps1` (uses the Edge or Chrome
+already installed).
 
 ## Use it with an AI agent
 
