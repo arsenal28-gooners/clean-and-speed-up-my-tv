@@ -50,6 +50,10 @@ Follow [docs/WORKFLOW.md](docs/WORKFLOW.md). In short:
 
 ## Rules that are not negotiable
 
+- **Mockup first, always.** Before any build, any image work for the app, or any command on the TV,
+  make an HTML mockup at 1920 x 1080 with the person's own picture, place, names and colours, showing
+  home, "All apps", the idle screen and all four times of day. Change it until they say "design approved".
+  Later changes to the look go through the mockup again before they reach the code.
 - **Ask before every change on the TV**, and before any download (name the file, source and size).
 - **Disable, never uninstall** system packages. Uninstall only user-installed apps, only when the person asks.
 - **Never disable Android's core packages** (permission controller, package installer, ext services/shared,

@@ -23,7 +23,8 @@ approves or can see.
    colours without waiting for the clock.
 4. Check contrast as you go: text at 4.5:1 or more; large text over a bright sky needs a darker band or a
    fade behind it.
-5. Stop and wait for "design approved".
+5. Stop and wait for "design approved". No build, no app images and no TV command before that, and any
+   later change to the look is shown on the mockup first.
 
 ## 2. Assets
 

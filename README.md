@@ -57,7 +57,8 @@ already installed).
    USB debugging (and Network/ADB debugging) on.
 3. Open the repo in Claude Code (or another agent with a shell) and paste [PROMPT.md](PROMPT.md).
 
-The agent follows [AGENTS.md](AGENTS.md): design on a mockup first, your images, backup, debloat in small
+The agent follows [AGENTS.md](AGENTS.md): a mockup first, with your own picture and place, approved by
+you before anything is built; then your images, backup, debloat in small
 batches, build, install, verify, and close ADB at the end. It asks before every change on the TV.
 
 ## Do it yourself

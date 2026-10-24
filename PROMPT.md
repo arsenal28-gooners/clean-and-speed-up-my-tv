@@ -14,7 +14,8 @@ My TV model is: <MODEL>. Its IP address is: <TV IP>.
 
 Follow AGENTS.md and docs/WORKFLOW.md from this repo, step by step, on the real TV.
 
-- Start with the design. Show me a mockup of the home screen first and ask me one design question at a
+- Make a mockup first, before anything else. Show me a mockup of the home screen, "All apps", the idle
+  screen and the four times of day, with my own picture and place in it, and ask me one design question at a
   time (colours, what the top bar shows, which apps go in the dock, whether I want an avatar or
   characters, light/time-of-day backdrop). Do not build or change the TV until I say "design approved".
 - The screenshots in this repo are only examples. Ask me which photo or illustration I want on the screen
